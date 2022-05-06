@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Manager</title>
+<style>
+.block {
+  padding: 8px;
+  border: 1px solid #000;
+  margin: 8px 0;
+}
+</style>
+</head>
+<body>
+<input id="f" type="file" onchange="run()"><br><br><br>
+<script>
+function run(){
+  f = document.getElementById("f");
+  txt = new FileReader();
+  txt.readAsText(f.files[0]);
+  txt.onload = function () {
+	lines = this.result.split("\n");
+	str = "";
+	for (i=0; i<lines.length; i+=4) {
+	  str += "<div class='block'>"+lines[i]+"<br>"+lines[i+1]+"<br>*****<button id='"+lines[i+2]+"' onclick='copy(this)'>COPY</button></div>"
+	}
+	document.body.innerHTML = "<input id='f' type='file' onchange='run()'><br><br><br>" + str;
+  }
+}
+function copy(elm) {
+  window.clipboardData.setData("Text", elm.id);
+}
+</script>
+</body>
+</html>
